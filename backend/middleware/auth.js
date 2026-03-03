@@ -6,7 +6,7 @@ const authorizeWarden = async (req, res, next) => {
     console.log("here", req.headers,token);
     const decodedToken = jwt.verify(token, process.env.JWTSECRET);
     console.log(decodedToken)
-    if (decodedToken.user.type === "warden") {
+    if (decodedToken.user.role === "warden") {
       return next();
     } else {
      return res.status(403).json({ error: "only warden can access" });
@@ -24,7 +24,7 @@ const authorizeStudent = async (req, res, next) => {
     console.log("here", req.headers,token);
     const decodedToken = jwt.verify(token, process.env.JWTSECRET);
     console.log(decodedToken)
-    if (decodedToken.user.type === "student") {
+    if (decodedToken.user.role === "student") {
       return next();
     } else {
      return res.status(403).json({ error: "Unauthorized for Student" });

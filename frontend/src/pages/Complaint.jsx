@@ -212,7 +212,7 @@ const Complaint = () => {
       });
       const jsonData = await response.json();
 
-      setComplaints(jsonData);
+      setComplaints(Array.isArray(jsonData) ? jsonData : []);
     } catch (err) {
       console.error(err.message);
     }

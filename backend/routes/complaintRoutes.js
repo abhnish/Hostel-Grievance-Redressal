@@ -8,10 +8,10 @@ const {
   getUserDetails,
   deleteComplaints
 } = require("../controller/complaintController");
-const { authorizeWarden } = require("../middleware/auth");
+const { authorizeWarden, authorizeComplaintRoute } = require("../middleware/auth");
 
 complaintRoutes.post("/complaints", postComplaints);
-complaintRoutes.get("/complaints", authorizeWarden, getAllComplaintsByUser);
+complaintRoutes.get("/complaints", authorizeComplaintRoute, getAllComplaintsByUser);
 // complaintRoutes.get("/complaints", getAllComplaintsByUser);
 complaintRoutes.post("/complaints/:id", putComplaintsByid);
 complaintRoutes.delete("/complaints/:id", deleteComplaints);
