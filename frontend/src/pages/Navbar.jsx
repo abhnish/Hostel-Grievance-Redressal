@@ -16,7 +16,7 @@ function Navbar() {
       <header className="shadow bg-white fixed w-full z-10 top-0">
         <div className="relative flex max-w-screen-xl flex-col overflow-hidden px-4 py-4 md:mx-auto md:flex-row md:items-center">
           <a href="/" className="flex items-center whitespace-nowrap text-2xl font-black">
-            <span className="text-black">SJCE Boy's Hostel</span>
+            <span className="text-black">Smart Public Service CRM</span>
           </a>
           <input type="checkbox" className="peer hidden" id="navbar-open" />
           <label className="absolute top-5 right-7 cursor-pointer md:hidden" htmlFor="navbar-open">
