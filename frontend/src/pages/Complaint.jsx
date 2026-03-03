@@ -29,6 +29,21 @@ const ComplaintForm = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [room, setRoom] = useState("");
+  const [wards, setWards] = useState([]);
+  const [selectedWard, setSelectedWard] = useState("");
+
+  useEffect(() => {
+    const fetchWards = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/wards");
+        const data = await response.json();
+        setWards(data);
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
+    fetchWards();
+  }, []);
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
@@ -38,16 +53,16 @@ const ComplaintForm = () => {
       return;
     }
     if (!room || room.trim() === "") {
-      alert("Please enter Room No.");
+      alert("Please enter your Address.");
       return;
     }
     if (!description || description.trim() === "") {
-      alert("Please enter a valid complaint.");
+      alert("Please enter a valid request description.");
       return;
     }
 
     try {
-      const body = { name, description, room };
+      const body = { name, description, room, ward_id: selectedWard };
       const response = await fetch("http://localhost:3000/complaints", {
         method: "POST",
         headers: headers,
@@ -178,8 +193,25 @@ const ComplaintForm = () => {
                 placeholder="Enter your Address"
                 onChange={(e) => setRoom(e.target.value)}
               />
+              <div class="mt-4 mb-4">
+                <label class="mb-2 inline-block text-sm font-medium text-gray-700">
+                  Ward
+                </label>
+                <select
+                  class="w-full rounded-lg border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
+                  value={selectedWard}
+                  onChange={(e) => setSelectedWard(e.target.value)}
+                >
+                  <option value="">Select a ward</option>
+                  {wards.map((ward) => (
+                    <option key={ward.ward_id} value={ward.ward_id}>
+                      {ward.ward_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <label class="mt-5 mb-2 inline-block max-w-full">
-                Tell us about your grievance
+                Tell us about your request
               </label>
               <textarea
                 id="about"
