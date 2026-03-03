@@ -34,8 +34,13 @@ const WardenComplaints = () => {
         headers: headers,
       });
       const jsonData = await response.json();
-
-      setComplaints(jsonData);
+      
+      // Ensure jsonData is an array
+      if (Array.isArray(jsonData)) {
+        setComplaints(jsonData);
+      } else {
+        setComplaints([]);
+      }
     } catch (err) {
       console.error(err.message);
     }
@@ -67,7 +72,7 @@ const WardenComplaints = () => {
       });
 
       if (response.ok) {
-        setComplaints(complaints.filter((complaint) => complaint.id !== id));
+        setComplaints(prevComplaints => Array.isArray(prevComplaints) ? prevComplaints.filter((complaint) => complaint.id !== id) : []);
       } else {
         console.error("Failed to delete complaint");
       }
@@ -80,13 +85,13 @@ const WardenComplaints = () => {
     <>
       <div className="bg-gray-100 p-4 sm:p-8 md:p-10 h-screen">
         <h1 className="text-2xl font-bold mt-20 mb-8">Complaints</h1>
-        {complaints.length === 0 ? (
+        {Array.isArray(complaints) && complaints.length === 0 ? (
           <p className="ml-4 mt-2 text-gray-600 text-xl">
             No complaints registered yet.
           </p>
         ) : (
           <div className="container mx-auto grid gap-8 md:grid-cols-3 sm:grid-cols-1">
-            {complaints.map((complaint) => (
+            {Array.isArray(complaints) && complaints.map((complaint) => (
               <div
                 key={complaint.complaint_id}
                 className="relative flex h-full flex-col rounded-md border border-gray-200 bg-white p-2.5 hover:border-gray-400 sm:rounded-lg sm:p-5"
