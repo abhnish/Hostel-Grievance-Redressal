@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 exports.userRegister = async (req, res) => {
-  const { full_name, email, phone, password, type } = req.body;
+  const { full_name, email, phone, password, role } = req.body;
 
   try {
     const user = await db.pool.query("SELECT * FROM users WHERE email = $1", [
@@ -16,41 +16,34 @@ exports.userRegister = async (req, res) => {
     ]);
 
     if (user.rows.length > 0) {
-      return res.status(401).json("User already exist!");
+      return res.status(400).json({ error: "User already exists" });
     }
 
     const salt = await bcrypt.genSalt(10);
     const bcryptPassword = await bcrypt.hash(password, salt);
 
     let newUser = await db.pool.query(
-      "INSERT INTO users (full_name, email,  phone, password,  type) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [full_name, email, phone, bcryptPassword, type]
+      "INSERT INTO users (full_name, email, phone, password, role) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [full_name, email, phone, bcryptPassword, role]
     );
 
     const jwtToken = jwtGenerator(
       newUser.rows[0].user_id,
-      newUser.rows[0].type
+      newUser.rows[0].role
     );
 
-    if (type === "student") {
-      const { block_id, usn, room } = req.body;
-      console.log(newUser.rows);
-      await db.pool.query(
-        "INSERT INTO student (student_id, block_id, usn, room) VALUES ($1, $2, $3, $4)",
-        [newUser.rows[0].user_id, block_id, usn, room]
-      );
-    } else if (type === "warden") {
-      const { block_id } = req.body;
-      await db.pool.query(
-        "INSERT INTO warden (warden_id,block_id) VALUES ($1, $2)",
-        [newUser.rows[0].user_id, block_id]
-      );
-    }
-    console.log(jwtDecoder(jwtToken));
-    return res.json({ jwtToken });
+    return res.status(201).json({
+      message: "Registration successful",
+      user: {
+        id: newUser.rows[0].user_id,
+        full_name: newUser.rows[0].full_name,
+        role: newUser.rows[0].role
+      },
+      jwtToken
+    });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server error");
+    res.status(500).json({ error: "Server error" });
   }
 };
 
@@ -63,19 +56,28 @@ exports.userLogin = async (req, res) => {
     ]);
 
     if (user.rows.length === 0) {
-      return res.status(401).json("Invalid Credential");
+      return res.status(400).json({ error: "User not found" });
     }
 
     const validPassword = await bcrypt.compare(password, user.rows[0].password);
 
     if (!validPassword) {
-      return res.status(401).json("Invalid Credential");
+      return res.status(400).json({ error: "Invalid credentials" });
     }
-    const jwtToken = jwtGenerator(user.rows[0].user_id, user.rows[0].type);
-    console.log(jwtDecoder(jwtToken));
-    return res.json({ jwtToken });
+
+    const jwtToken = jwtGenerator(user.rows[0].user_id, user.rows[0].role);
+    
+    return res.json({
+      message: "Login successful",
+      user: {
+        id: user.rows[0].user_id,
+        full_name: user.rows[0].full_name,
+        role: user.rows[0].role
+      },
+      jwtToken
+    });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server error");
+    res.status(500).json({ error: "Server error" });
   }
 };
