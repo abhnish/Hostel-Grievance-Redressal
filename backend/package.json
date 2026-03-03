@@ -1,14 +1,14 @@
 {
-  "name": "backend",
+  "name": "municipal-ps-crm-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Smart Public Service CRM - Backend API for municipal public service management",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["municipal", "public-service", "crm", "citizen-services", "transparency"],
+  "author": "Smart Public Service CRM Team",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
