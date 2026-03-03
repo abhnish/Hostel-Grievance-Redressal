@@ -3,6 +3,8 @@ const cors = require("cors");
 const app = express();
 const db = require("../db");
 const { jwtGenerator, jwtDecoder } = require("../utils/jwtToken");
+const { classifyText } = require("../services/aiService");
+const { computePriorityScore } = require("../utils/priority");
 
 app.use(cors());
 app.use(express.json());
@@ -55,30 +57,79 @@ exports.postComplaints = async (req, res) => {
     console.log(token);
     const userInfo = await decodeUser(token);
 
-    const { student_id, block_id } = userInfo;
+    const { user_id } = userInfo;
+    const { 
+      citizen_id = user_id, 
+      ward_id, 
+      department_id, 
+      description, 
+      location, 
+      latitude, 
+      longitude 
+    } = req.body;
 
-    const { name, description, room, is_completed, assigned_at } = req.body;
+    // Validate required fields
+    if (!description || !ward_id) {
+      return res.status(400).json({ error: 'Description and ward_id are required' });
+    }
 
-    const query = `insert into complaint 
-            (name, block_id, 
-            student_id, 
-            description, room, is_completed, created_at,
-            assigned_at) 
-            values ($1,$2,$3,$4,$5,$6,$7,$8) returning *`;
+    // Classify the complaint text
+    const classification = await classifyText(description);
+    console.log('Classification result:', classification);
+
+    // Compute recurrence count (simple substring matching)
+    let recurrenceCount = 0;
+    try {
+      const similarComplaints = await db.pool.query(
+        `SELECT COUNT(*) as count FROM complaint WHERE description ILIKE $1`,
+        [`%${description.substring(0, 50)}%`]
+      );
+      recurrenceCount = parseInt(similarComplaints.rows[0]?.count || '0');
+    } catch (err) {
+      console.warn('Failed to compute recurrence count:', err.message);
+    }
+
+    // Location sensitivity (simplified - could be enhanced with ward criticality data)
+    const locationSensitivity = false; // Default to false for now
+
+    // Compute priority score
+    const priority_score = computePriorityScore({
+      urgency: classification.urgency,
+      sentiment: classification.sentiment,
+      recurrenceCount,
+      locationSensitivity
+    });
+
+    console.log('Priority score:', priority_score);
+
+    // Insert complaint with AI classification and priority
+    const query = `
+      INSERT INTO complaint 
+        (citizen_id, ward_id, department_id, description, location, 
+         latitude, longitude, category, sentiment, priority_score, status, created_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
+        RETURNING *
+    `;
 
     const newComplaint = await db.pool.query(query, [
-      name,
-      block_id,
-      student_id,
+      citizen_id,
+      ward_id || null,
+      department_id || null,
       description,
-      room,
-      false,
-      new Date().toISOString(),
-      null,
+      location || null,
+      latitude || null,
+      longitude || null,
+      classification.category,
+      classification.sentiment,
+      priority_score,
+      'pending',
+      new Date().toISOString()
     ]);
+
     res.json(newComplaint.rows[0]);
   } catch (err) {
-    console.log(err.message);
+    console.error('Error creating complaint:', err.message);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
