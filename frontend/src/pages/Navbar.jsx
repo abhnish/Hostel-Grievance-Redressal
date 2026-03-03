@@ -31,6 +31,9 @@ function Navbar() {
           >
             <ul className="flex flex-col items-center space-y-2 md:ml-auto md:flex-row md:space-y-0">
               <li className="text-gray-600 md:mr-12 hover:text-blue-600">
+                <Link to="/transparency">Transparency</Link>
+              </li>
+              <li className="text-gray-600 md:mr-12 hover:text-blue-600">
                 <Link to="/account">Account</ Link>
               </li>
               <li className="text-gray-600 md:mr-12 hover:text-blue-600">

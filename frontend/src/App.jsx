@@ -4,6 +4,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { RoutesPathName } from "./constants";
 import PrivateRoute from "./utils/PrivateRoute";
 import AccountPage from "./pages/AccountPage";
+import Transparency from "./pages/Transparency";
 
 const routes = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const routes = createBrowserRouter([
   {
     path: RoutesPathName.ACCOUNT,
     element: <AccountPage />,
+  },
+  {
+    path: RoutesPathName.TRANSPARENCY,
+    element: <Transparency />,
   },
   {
     path: RoutesPathName.DASHBOARD_PAGE,
