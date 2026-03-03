@@ -208,7 +208,7 @@ function Register() {
                       htmlFor="email"
                       className="mb-2 inline-block text-xs font-medium uppercase text-gray-700"
                     >
-                      Block ID
+                      Ward
                     </label>
                     <input
                       type="text"
@@ -217,7 +217,7 @@ function Register() {
                       }`}
                       id="email"
                       name="email-username"
-                      placeholder="Enter your Block ID"
+                      placeholder="Enter your Ward"
                       autoFocus
                       onChange={(e) => setBlock_id(e.target.value)}
                     />
@@ -228,13 +228,13 @@ function Register() {
                         htmlFor="password"
                         className="mb-2 inline-block text-xs font-medium uppercase text-gray-700"
                       >
-                        Room
+                        Address
                       </label>
                       <input
                         type="text"
                         className="block w-full cursor-text appearance-none rounded-md border border-gray-400 bg--100 py-2 px-3 text-sm outline-none focus:border-indigo-500 focus:bg-white focus:text-gray-600 focus:shadow"
                         name="password"
-                        placeholder="Enter your Room"
+                        placeholder="Enter your Address"
                         onChange={(e) => setRoom(e.target.value)}
                       />
                     </div>
@@ -253,13 +253,13 @@ function Register() {
                           htmlFor="email"
                           className="mb-2 inline-block text-xs font-medium uppercase text-gray-700"
                         >
-                          USN
+                          Citizen ID
                         </label>
                         <input
                           type="text"
                           className="block w-full cursor-text appearance-none rounded-md border border-gray-400 bg--100 py-2 px-3 text-sm outline-none focus:border-indigo-500 focus:bg-white focus:text-gray-600 focus:shadow"
                           name="email-username"
-                          placeholder="Enter your USN"
+                          placeholder="Enter your Citizen ID"
                           autoFocus
                           onChange={(e) => setUsn(e.target.value)}
                         />
@@ -295,7 +295,7 @@ function Register() {
                           role === Roles.WARDEN && " bg-indigo-500 text-white"
                         }`}
                       >
-                        Warden
+                        Officer
                       </button>
                       <button
                         type="button"
@@ -304,7 +304,7 @@ function Register() {
                           role === Roles.STUDENT && "bg-indigo-500 text-white"
                         }`}
                       >
-                        Student
+                        Citizen
                       </button>
                     </div>
                   </div>

@@ -92,25 +92,25 @@ function AccountPage() {
           <>
             <li className="lg:w-1/3  sm:w-full inline-flex items-center gap-x-2 py-3 px-4 text-sm border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg">
               <div className="flex items-center justify-between w-full">
-                <span>USN</span>
+                <span>Citizen ID</span>
                 <span>{userUsn}</span>
               </div>
             </li>
             <li className="lg:w-1/3  sm:w-full inline-flex items-center gap-x-2 py-3 px-4 text-sm border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg">
               <div className="flex items-center justify-between w-full">
-                <span>Block ID</span>
+                <span>Ward ID</span>
                 <span>{userblockID}</span>
               </div>
             </li>
             <li className="lg:w-1/3  sm:w-full inline-flex items-center gap-x-2 py-3 px-4 text-sm border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg">
               <div className="flex items-center justify-between w-full">
-                <span>Block Name</span>
+                <span>Ward Name</span>
                 <span>{userblockname}</span>
               </div>
             </li>
             <li className="lg:w-1/3 sm:w-full inline-flex items-center gap-x-2 py-3 px-4 text-sm border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg">
               <div className="flex items-center justify-between w-full">
-                <span>Room</span>
+                <span>Address</span>
                 <span>{userRoom}</span>
               </div>
             </li>

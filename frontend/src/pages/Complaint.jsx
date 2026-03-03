@@ -64,13 +64,13 @@ const ComplaintForm = () => {
       <section class="bg-gray-100 py-12 text-gray-800 sm:py-24 h-full">
         <div class="bg-gray-100 mx-auto flex max-w-md flex-col rounded-lg lg:max-w-screen-xl lg:flex-row">
           <div class="max-w-2xl px-4 lg:pr-24">
-            <p class="mb-2 text-blue-600">Hostel Grievance Redressal</p>
-            <h3 class="mb-5 text-3xl font-semibold">Submit Your Grievance</h3>
+            <p class="mb-2 text-blue-600">Smart Public Service CRM</p>
+            <h3 class="mb-5 text-3xl font-semibold">Submit Public Service Request</h3>
             <p class="mb-16 text-md text-gray-600">
-              Hostel Grievance Redressal ensures a swift and confidential
-              resolution of student concerns. We guarantee a quick response to
-              submitted complaints, fostering a secure and comfortable living
-              environment for all hostel residents.
+              Smart Public Service CRM ensures efficient and transparent
+              resolution of citizen concerns. We guarantee a quick response to
+              submitted requests, fostering a better and more responsive
+              municipal environment for all residents.
             </p>
             <div class="mb-5 flex font-medium">
               <div class="mr-4">
@@ -93,7 +93,7 @@ const ComplaintForm = () => {
                 <p class="mb-2">Swift Grievance Resolution</p>
                 <span class="font-normal text-gray-600">
                   Swift grievance resolution prioritizes timely and effective
-                  solutions, ensuring students' concerns are promptly addressed
+                  solutions, ensuring citizens' concerns are promptly addressed
                   and resolved.
                 </span>
               </div>
@@ -154,13 +154,13 @@ const ComplaintForm = () => {
           <div class="border border-gray-100 shadow-gray-500/20 mt-8 mb-8 max-w-md bg-white shadow-sm sm:rounded-lg sm:shadow-lg lg:mt-0">
             <div class="relative border-b border-gray-300 p-4 py-8 sm:px-8">
               <h3 class="mb-1 inline-block text-3xl font-medium">
-                <span class="mr-4">Submit Complaint</span>
+                <span class="mr-4">Submit Request</span>
                 <span class="inline-block rounded-md bg-blue-100 px-2 py-1 text-sm text-blue-700 sm:inline">
                   Quick Response
                 </span>
               </h3>
               <p class="text-gray-600">
-                Contact us for hostel grievance redressal
+                Contact us for municipal public service requests
               </p>
             </div>
             <div class="p-4 sm:p-8">
@@ -168,14 +168,14 @@ const ComplaintForm = () => {
                 id="name"
                 type="text"
                 class="mt-1 w-full resize-y overflow-auto rounded-lg border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:outline-none hover:border-blue-500"
-                placeholder="Enter Complaint name"
+                placeholder="Enter Request title"
                 onChange={(e) => setName(e.target.value)}
               />
               <input
                 id="email"
                 type="text"
                 class="peer mt-8 w-full resize-y overflow-auto rounded-lg border border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:outline-none hover:border-blue-500"
-                placeholder="Enter your Room No."
+                placeholder="Enter your Address"
                 onChange={(e) => setRoom(e.target.value)}
               />
               <label class="mt-5 mb-2 inline-block max-w-full">

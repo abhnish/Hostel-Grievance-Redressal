@@ -1,6 +1,6 @@
 export const Roles = {
-    WARDEN : 'warden',
-    STUDENT : 'student'
+    WARDEN : 'officer',
+    STUDENT : 'citizen'
 }
 
  export const RoutesPathName = {
