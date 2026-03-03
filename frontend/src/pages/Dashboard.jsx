@@ -34,8 +34,8 @@ function Dashboard() {
   return (
     <>
       <Navbar />
-      {userType === "student" ? <Complaint /> : null}
-      {userType === "warden" ? <WardenComplaints /> : null}
+      {userType === "citizen" ? <Complaint /> : null}
+      {userType === "officer" ? <WardenComplaints /> : null}
     </>
   );
 }

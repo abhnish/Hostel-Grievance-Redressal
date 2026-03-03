@@ -92,7 +92,7 @@ const WardenComplaints = () => {
                 className="relative flex h-full flex-col rounded-md border border-gray-200 bg-white p-2.5 hover:border-gray-400 sm:rounded-lg sm:p-5"
               >
                 <div className="text-lg mb-2 font-semibold text-gray-900 hover:text-black sm:mb-1.5 sm:text-2xl">
-                  {complaint.name} (Room No.{complaint.room})
+                  {complaint.name} (Address: {complaint.room})
                 </div>
                 <p className="text-sm">
                   Created on {formatTimestamp1(complaint.created_at)}
