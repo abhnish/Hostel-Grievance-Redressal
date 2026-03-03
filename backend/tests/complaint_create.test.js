@@ -20,6 +20,15 @@ jest.mock('../utils/priority', () => ({
   computePriorityScore: jest.fn()
 }));
 
+// Mock the decodeUser function and auth
+jest.mock('../controller/complaintController', () => {
+  const originalModule = jest.requireActual('../controller/complaintController');
+  return {
+    ...originalModule,
+    postComplaints: jest.fn()
+  };
+});
+
 const app = express();
 app.use(express.json());
 

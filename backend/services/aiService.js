@@ -130,13 +130,13 @@ function ruleBasedClassification(text) {
   let urgency = 'low';
   if (lowerText.includes('hospital') || lowerText.includes('emergency') || lowerText.includes('danger')) {
     urgency = 'high';
-  } else if (lowerText.includes('urgent') || lowerText.includes('blocked') || lowerText.includes('critical')) {
+  } else if (lowerText.includes('urgent') || lowerText.includes('blocked') || lowerText.includes('critical') || lowerText.includes('outage') || lowerText.includes('garbage') || lowerText.includes('waste')) {
     urgency = 'medium';
   }
 
   // Sentiment classification
   let sentiment = 'neutral';
-  if (lowerText.includes('angry') || lowerText.includes('not working') || lowerText.includes('complaint') || lowerText.includes('frustrated')) {
+  if (lowerText.includes('angry') || lowerText.includes('not working') || lowerText.includes('complaint') || lowerText.includes('frustrated') || lowerText.includes('emergency') || lowerText.includes('garbage') || lowerText.includes('waste')) {
     sentiment = 'angry';
   } else if (lowerText.includes('thank') || lowerText.includes('good') || lowerText.includes('appreciate')) {
     sentiment = 'positive';

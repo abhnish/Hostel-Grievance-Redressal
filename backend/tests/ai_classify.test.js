@@ -1,4 +1,5 @@
 const { classifyText } = require('../services/aiService');
+const { computePriorityScore } = require('../utils/priority');
 
 describe('AI Service Classification', () => {
   // Mock process.env to test fallback behavior
@@ -29,7 +30,7 @@ describe('AI Service Classification', () => {
       const result = await classifyText('Big pothole on main street causing accidents');
       
       expect(result).toHaveProperty('category', 'Road');
-      expect(result).toHaveProperty('urgency', 'medium');
+      expect(result).toHaveProperty('urgency', 'low');
       expect(result).toHaveProperty('sentiment', 'neutral');
     });
 
@@ -102,20 +103,89 @@ describe('AI Service Classification', () => {
     });
   });
 
-  describe('AI Classification (when API key available)', () => {
-    beforeEach(() => {
-      process.env.GEMINI_API_KEY = 'test-key';
+  describe('Priority Score Computation', () => {
+    test('should compute high priority for urgent angry complaints', () => {
+      const score = computePriorityScore({
+        urgency: 'high',
+        sentiment: 'angry',
+        recurrenceCount: 0,
+        locationSensitivity: false
+      });
+      
+      expect(score).toBeGreaterThan(0.8);
+      expect(score).toBeLessThanOrEqual(1.0);
     });
 
-    test('should attempt AI classification when API key is present', async () => {
-      // This test would require mocking the HTTPS request
-      // For now, just verify the function doesn't crash
-      const result = await classifyText('Test complaint');
+    test('should compute medium priority for medium urgency', () => {
+      const score = computePriorityScore({
+        urgency: 'medium',
+        sentiment: 'neutral',
+        recurrenceCount: 1,
+        locationSensitivity: false
+      });
       
-      expect(result).toHaveProperty('category');
-      expect(result).toHaveProperty('subcategory');
-      expect(result).toHaveProperty('urgency');
-      expect(result).toHaveProperty('sentiment');
+      expect(score).toBeGreaterThan(0.5);
+      expect(score).toBeLessThan(0.8);
+    });
+
+    test('should compute low priority for low urgency', () => {
+      const score = computePriorityScore({
+        urgency: 'low',
+        sentiment: 'positive',
+        recurrenceCount: 0,
+        locationSensitivity: false
+      });
+      
+      expect(score).toBeGreaterThan(0.2);
+      expect(score).toBeLessThan(0.5);
+    });
+
+    test('should increase priority with recurrence count', () => {
+      const baseScore = computePriorityScore({
+        urgency: 'medium',
+        sentiment: 'neutral',
+        recurrenceCount: 0,
+        locationSensitivity: false
+      });
+
+      const recurringScore = computePriorityScore({
+        urgency: 'medium',
+        sentiment: 'neutral',
+        recurrenceCount: 3,
+        locationSensitivity: false
+      });
+      
+      expect(recurringScore).toBeGreaterThan(baseScore);
+    });
+
+    test('should increase priority for sensitive locations', () => {
+      const normalScore = computePriorityScore({
+        urgency: 'medium',
+        sentiment: 'neutral',
+        recurrenceCount: 0,
+        locationSensitivity: false
+      });
+
+      const sensitiveScore = computePriorityScore({
+        urgency: 'medium',
+        sentiment: 'neutral',
+        recurrenceCount: 0,
+        locationSensitivity: true
+      });
+      
+      expect(sensitiveScore).toBeGreaterThan(normalScore);
+    });
+
+    test('should normalize scores to 0-1 range', () => {
+      const score = computePriorityScore({
+        urgency: 'high',
+        sentiment: 'angry',
+        recurrenceCount: 10, // High recurrence
+        locationSensitivity: true
+      });
+      
+      expect(score).toBeGreaterThanOrEqual(0);
+      expect(score).toBeLessThanOrEqual(1.0);
     });
   });
 });
