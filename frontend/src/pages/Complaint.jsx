@@ -119,8 +119,8 @@ const ComplaintForm = () => {
                 <p class="mb-2">Confidentiality Assured</p>
                 <span class="font-normal text-gray-600">
                   Your grievances are handled with utmost confidentiality,
-                  ensuring privacy and trust throughout the hostel grievance
-                  redressal process .
+                  ensuring privacy and trust throughout the municipal public service
+                  resolution process .
                 </span>
               </div>
             </div>
@@ -145,8 +145,8 @@ const ComplaintForm = () => {
                 <p class="mb-2">Easy Communication</p>
                 <span class="font-normal text-gray-600">
                   Effortless communication is facilitated, providing a smooth
-                  and accessible channel for expressing and resolving grievances
-                  within the hostel community.
+                  and accessible channel for expressing and resolving concerns
+                  within the municipal community.
                 </span>
               </div>
             </div>
